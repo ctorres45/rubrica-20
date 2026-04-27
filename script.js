@@ -51,7 +51,7 @@ function cargarProductos() {
   productos.forEach(p => {
     contenedor.innerHTML += `
       <div class="producto">
-        <img src="${p.imagen}">
+        <img src="${p.imagen}" alt="${p.nombre}">
         <h3>${p.nombre}</h3>
         <p>$${p.precio.toLocaleString()}</p>
         <button onclick="agregarAlCarrito('${p.nombre}', ${p.precio})">
@@ -76,6 +76,11 @@ function agregarAlCarrito(nombre, precio) {
   });
 
   totalTexto.textContent = `Total: $${total.toLocaleString()}`;
+
+  // Actualizar enlace de WhatsApp
+  const itemsTexto = carrito.map(i => `${i.nombre} ($${i.precio.toLocaleString()})`).join(", ");
+  const mensaje = encodeURIComponent(`Hola! Quiero comprar: ${itemsTexto}. Total: $${total.toLocaleString()}`);
+  document.getElementById("whatsapp-btn").href = `https://wa.me/573116408358?text=${mensaje}`;
 }
 
 cargarProductos();
