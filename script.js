@@ -43,6 +43,7 @@ const productos = [
 
 let carrito = [];
 let total = 0;
+let mensajeWhatsApp = "";
 
 function cargarProductos() {
   const contenedor = document.querySelector(".productos-grid");
@@ -81,10 +82,8 @@ function agregarAlCarrito(nombre, precio) {
 }
 
 function actualizarWhatsApp() {
-  const btn = document.getElementById("whatsapp-btn");
-
   if (carrito.length === 0) {
-    btn.href = "#";
+    mensajeWhatsApp = "";
     return;
   }
 
@@ -92,9 +91,16 @@ function actualizarWhatsApp() {
     .map(i => `• ${i.nombre} - $${i.precio.toLocaleString()}`)
     .join("\n");
 
-  const mensaje = `Hola! Quiero hacer un pedido:\n\n${itemsTexto}\n\nTotal: $${total.toLocaleString()}`;
+  mensajeWhatsApp = `Hola! Quiero hacer un pedido:\n\n${itemsTexto}\n\nTotal: $${total.toLocaleString()}`;
+}
 
-  btn.href = `https://wa.me/573116408358?text=${encodeURIComponent(mensaje)}`;
+function irAWhatsApp() {
+  if (carrito.length === 0) {
+    alert("Agrega productos al carrito primero");
+    return;
+  }
+  const url = `https://wa.me/573116408358?text=${encodeURIComponent(mensajeWhatsApp)}`;
+  window.open(url, "_blank");
 }
 
 cargarProductos();
