@@ -1,115 +1,81 @@
-
-// 🛒 CARRITO (guardado en navegador)
-let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
-// 💾 GUARDAR
-function guardarCarrito() {
-  localStorage.setItem("carrito", JSON.stringify(carrito));
-}
-
-// 💰 TOTAL
-function calcularTotal() {
-  return carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
-}
-
-// 🔔 TOAST
-function mostrarToast(msg) {
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.style.opacity = 1;
-
-  setTimeout(() => {
-    t.style.opacity = 0;
-  }, 2000);
-}
-
-// ➕ AGREGAR AL CARRITO
-function agregarAlCarrito(nombre, precio) {
-  let item = carrito.find(p => p.nombre === nombre);
-
-  if (item) {
-    item.cantidad++;
-  } else {
-    carrito.push({ nombre, precio, cantidad: 1 });
+const productos = [
+  {
+    nombre: "Proteína Whey",
+    precio: 120000,
+    imagen: "https://smartmuscle.com.co/wp-content/uploads/2025/04/smartmuscle-4.webp"
+  },
+  {
+    nombre: "Creatina Monohidratada",
+    precio: 80000,
+    imagen: "https://nutrafitcolombia.com/wp-content/uploads/2024/11/creatina-monohidratada-500-gramos-dymatize-nutrafit-3.webp"
+  },
+  {
+    nombre: "Crea Stack",
+    precio: 80000,
+    imagen: "https://nutramerican.com/video/creastack/LOADCREASTACKNUEVA.webp"
+  },
+  {
+    nombre: "Smart",
+    precio: 55000,
+    imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1vQg24z5_xSi2kBH8yT9fImnSRMnvzTMzkg&s"
+  },
+  {
+    nombre: "Creatina Ultra Pure",
+    precio: 95000,
+    imagen: "https://muscleandfitnessco.com/cdn/shop/files/creatine_ultra_pure_specs.jpg?v=1717683028"
+  },
+  {
+    nombre: "Syntha-6",
+    precio: 95000,
+    imagen: "https://bangladeshsupplementhouse.com/wp-content/uploads/2025/08/syntha-6-22g-Protin.jpg"
+  },
+  {
+    nombre: "Omega 3",
+    precio: 60000,
+    imagen: "https://nutrafitcolombia.com/wp-content/uploads/2020/11/omega-3-120-capsulas-proscience-galeria.webp"
+  },
+  {
+    nombre: "Bipro",
+    precio: 60000,
+    imagen: "https://nutramerican.com/img/parallaxbipros.webp"
   }
+];
 
-  guardarCarrito();
-  actualizarCarrito();
-  mostrarToast("Producto agregado 🛒");
+let carrito = [];
+let total = 0;
+
+function cargarProductos() {
+  const contenedor = document.querySelector(".productos-grid");
+  contenedor.innerHTML = "";
+
+  productos.forEach(p => {
+    contenedor.innerHTML += `
+      <div class="producto">
+        <img src="${p.imagen}">
+        <h3>${p.nombre}</h3>
+        <p>$${p.precio.toLocaleString()}</p>
+        <button onclick="agregarAlCarrito('${p.nombre}', ${p.precio})">
+          Agregar
+        </button>
+      </div>
+    `;
+  });
 }
 
-// ❌ ELIMINAR
-function eliminar(index) {
-  carrito.splice(index, 1);
-  guardarCarrito();
-  actualizarCarrito();
-}
+function agregarAlCarrito(nombre, precio) {
+  carrito.push({ nombre, precio });
+  total += precio;
 
-// 🔄 ACTUALIZAR CARRITO
-function actualizarCarrito() {
   const lista = document.getElementById("lista-carrito");
   const totalTexto = document.getElementById("total");
-  const btn = document.getElementById("whatsapp-btn");
 
   lista.innerHTML = "";
 
-  if (carrito.length === 0) {
-    lista.innerHTML = "<p>Carrito vacío 😢</p>";
-    totalTexto.textContent = "Total: $0";
-    return;
-  }
-
-  carrito.forEach((item, i) => {
-    lista.innerHTML += `
-      <li>
-        <strong>${item.nombre}</strong><br>
-        Cantidad: ${item.cantidad}<br>
-        Subtotal: $${(item.precio * item.cantidad).toLocaleString()}
-        <br>
-        <button onclick="eliminar(${i})">Eliminar</button>
-      </li>
-    `;
-  });
-
-  let total = calcularTotal();
-  totalTexto.textContent = "Total: $" + total.toLocaleString();
-
-  let mensaje = "Hola, quiero comprar:\n";
   carrito.forEach(item => {
-    mensaje += `- ${item.nombre} x${item.cantidad}\n`;
+    lista.innerHTML += `<li>${item.nombre} - $${item.precio.toLocaleString()}</li>`;
   });
-  mensaje += `Total: $${total.toLocaleString()}`;
 
-  btn.href = `https://wa.me/573116408358?text=${encodeURIComponent(mensaje)}`;
+  totalTexto.textContent = `Total: $${total.toLocaleString()}`;
 }
 
-// 🔥 CARGAR PRODUCTOS DESDE BACKEND
-async function cargarProductos() {
-  try {
-    const res = await fetch("http://localhost:3000/productos");
-    const productos = await res.json();
-
-    const contenedor = document.querySelector(".productos-grid");
-    contenedor.innerHTML = "";
-
-    productos.forEach(p => {
-      contenedor.innerHTML += `
-        <div class="producto">
-          <img src="${p.imagen}">
-          <h3>${p.nombre}</h3>
-          <p>$${p.precio.toLocaleString()}</p>
-          <button onclick="agregarAlCarrito('${p.nombre}', ${p.precio})">
-            Agregar
-          </button>
-        </div>
-      `;
-    });
-
-  } catch (error) {
-    console.error("Error cargando productos:", error);
-  }
-}
-
-// 🚀 INICIAR TODO
 cargarProductos();
-actualizarCarrito();
