@@ -80,7 +80,7 @@ function actualizarCarrito() {
   });
   mensaje += `Total: $${total.toLocaleString()}`;
 
-  btn.href = `https://wa.me/573044228622?text=${encodeURIComponent(mensaje)}`;
+  btn.href = `https://wa.me/573116408358?text=${encodeURIComponent(mensaje)}`;
 }
 
 // 🔥 CARGAR PRODUCTOS DESDE BACKEND

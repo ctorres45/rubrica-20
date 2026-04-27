@@ -8,53 +8,60 @@
 </head>
 <body>
 
-<!-- HEADER -->
-<header>
-  <div class="logo">
-    <img src="https://i.ibb.co/rxV6wMc/fitchash-logo.png" alt="logo">
-    <h1>Fitchash</h1>
-  </div>
-  <nav>
-    <a href="#productos">Productos</a>
-    <a href="#carrito">Carrito 🛒</a>
-    <a href="https://wa.me/573116408358" target="_blank">WhatsApp</a>
-  </nav>
-</header>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <img src="https://i.ibb.co/rxV6wMc/fitchash-logo.png" alt="logo">
+      <h1>Fitchash</h1>
+    </div>
 
-<!-- HERO -->
-<section class="hero">
-  <h2>💪 Suplementos Deportivos Premium</h2>
-  <p>Mejora tu rendimiento con la mejor calidad</p>
-  <a href="#productos" class="btn-hero">Ver catálogo</a>
-</section>
+    <nav>
+      <a href="#productos">Productos</a>
+      <a href="#carrito">Carrito 🛒</a>
+      <a href="https://wa.me/573116408358" target="_blank">WhatsApp</a>
+    </nav>
+  </header>
 
-<!-- PRODUCTOS (DINÁMICOS) -->
-<main>
-  <section id="productos">
-    <h2>Catálogo</h2>
-
-    <!-- 🔥 AQUÍ SE CARGAN DESDE MONGODB -->
-    <div class="productos-grid"></div>
-
+  <!-- HERO -->
+  <section class="hero">
+    <h2>💪 Suplementos Deportivos Premium</h2>
+    <p>Mejora tu rendimiento con la mejor calidad</p>
+    <a href="#productos" class="btn-hero">Ver catálogo</a>
   </section>
 
-  <!-- CARRITO -->
-  <section id="carrito">
-    <h2>🛒 Tu Carrito</h2>
-    <ul id="lista-carrito"></ul>
-    <p id="total">Total: $0</p>
-    <a id="whatsapp-btn" target="_blank">Finalizar compra en WhatsApp</a>
-  </section>
-</main>
+  <!-- MAIN -->
+  <main>
 
-<!-- TOAST -->
-<div id="toast"></div>
+    <!-- PRODUCTOS -->
+    <section id="productos">
+      <h2>Catálogo</h2>
+      <div class="productos-grid"></div>
+    </section>
 
-<!-- FOOTER -->
-<footer>
-  <p>© 2025 Fitchash | Suplementos deportivos</p>
-</footer>
+    <!-- CARRITO -->
+    <section id="carrito">
+      <h2>🛒 Tu Carrito</h2>
 
-<script src="script.js"></script>
+      <ul id="lista-carrito">
+        <li>Carrito vacío 😢</li>
+      </ul>
+
+      <p id="total">Total: $0</p>
+
+      <a id="whatsapp-btn" href="#" target="_blank">
+        Finalizar compra en WhatsApp
+      </a>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Fitchash | Suplementos deportivos</p>
+  </footer>
+
+  <!-- SCRIPT (SIEMPRE AL FINAL) -->
+  <script src="script.js"></script>
+
 </body>
 </html>
