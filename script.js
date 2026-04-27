@@ -55,7 +55,7 @@ function cargarProductos() {
         <h3>${p.nombre}</h3>
         <p>$${p.precio.toLocaleString()}</p>
         <button onclick="agregarAlCarrito('${p.nombre}', ${p.precio})">
-          Agregar
+          Agregar al carrito
         </button>
       </div>
     `;
@@ -77,10 +77,24 @@ function agregarAlCarrito(nombre, precio) {
 
   totalTexto.textContent = `Total: $${total.toLocaleString()}`;
 
-  // Actualizar enlace de WhatsApp
-  const itemsTexto = carrito.map(i => `${i.nombre} ($${i.precio.toLocaleString()})`).join(", ");
-  const mensaje = encodeURIComponent(`Hola! Quiero comprar: ${itemsTexto}. Total: $${total.toLocaleString()}`);
-  document.getElementById("whatsapp-btn").href = `https://wa.me/573116408358?text=${mensaje}`;
+  actualizarWhatsApp();
+}
+
+function actualizarWhatsApp() {
+  const btn = document.getElementById("whatsapp-btn");
+
+  if (carrito.length === 0) {
+    btn.href = "#";
+    return;
+  }
+
+  const itemsTexto = carrito
+    .map(i => `• ${i.nombre} - $${i.precio.toLocaleString()}`)
+    .join("\n");
+
+  const mensaje = `Hola! Quiero hacer un pedido:\n\n${itemsTexto}\n\nTotal: $${total.toLocaleString()}`;
+
+  btn.href = `https://wa.me/573116408358?text=${encodeURIComponent(mensaje)}`;
 }
 
 cargarProductos();
